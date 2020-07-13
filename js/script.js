@@ -19,12 +19,27 @@ const activities = document.querySelector('.activities');
 const checkboxes = document.querySelectorAll('.activities input');
 let   totalFee = 0;
 
+const paymentOptions= document.querySelector('#payment')
+const selectPaymentOption = document.querySelectorAll('#payment option')[0];
+const creditOption = document.querySelectorAll('#payment option')[1];
+const creditCard = document.querySelector('.credit-card');
+const paypal = document.querySelector('.paypal');
+const bitcoin = document.querySelector('.bitcoin');
+
 //Actions to take on page load
 window.onload = function() { 
     //set focus on 'Name' field on page load
     nameField.focus();
+    
     //Hide the 'other' field until the user selects the 'other' text option
     otherField.style.display='none';
+    
+    //remove unnessecary 'select payment' option
+    selectPaymentOption.remove(); //why was it even there in the first place?
+    
+    //Hide deselected payment options
+    paypal.style.display='none';
+    bitcoin.style.display='none';
 }
 
 //Job Role Section
@@ -113,5 +128,6 @@ activities.addEventListener('change', (e) => {
 });
 
 //Payment Section
+
 
 //Form Validation
