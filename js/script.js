@@ -78,9 +78,8 @@ colorLabel.style.display='';
 activities.append(activityFeeDiv); //Div to display the cost of the selected events
 activityFeeDiv.textContent = `Your total will display here once you select your chosen event(s).`;
 
-//listener to update the activities checklist 
+//listener to update the activities checklist & total fee
 activities.addEventListener('change', (e) => {
-    
     
     //adjust the total fee based on what was selected or deselected
     let eventCost = parseInt(e.target.getAttribute('data-cost'));
@@ -110,8 +109,7 @@ activities.addEventListener('change', (e) => {
                     checkboxes[i].disabled = false 
                 }
             }
-        } 
-    
+        }     
 });
 
 //Payment Section
