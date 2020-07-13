@@ -38,15 +38,16 @@ jobRole.addEventListener('change', (e) => {
 
 themeSelectOption.style.display='none'; //stop user from selecting the 'select design' option
 
-//hide color options until the user selects a design
-colorLabel.textContent = 'Select a T-Shirt design first!';
+//hide color options until the user selects a design (Extra Credit part 1)
+colorLabel.style.display='none';
 colorOptions.style.display='none';
 
 //listener to reveal correct color options once a design is selected.
 designSelect.addEventListener('change', (e) => {
     
+//Extra Credit part 1: Color label and options only appear after a design is selected
 colorOptions.style.display='';
-colorLabel.textContent = 'Color:';
+colorLabel.style.display='';
     
     for(let i=0; i<colorOptions.length; i++){
         if(e.target.value === 'js puns'){
