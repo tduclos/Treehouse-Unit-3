@@ -129,5 +129,20 @@ activities.addEventListener('change', (e) => {
 
 //Payment Section
 
+paymentOptions.addEventListener('change', (e) => {
+    if (e.target.value === 'credit card') {
+        creditCard.style.display='';
+        paypal.style.display='none';
+        bitcoin.style.display='none';
+    } else if (e.target.value === 'paypal') {
+        creditCard.style.display='none';
+        paypal.style.display='';
+        bitcoin.style.display='none';
+    } else if (e.target.value === 'bitcoin'){
+        creditCard.style.display='none';
+        paypal.style.display='none';
+        bitcoin.style.display='';
+    } 
+});
 
 //Form Validation
