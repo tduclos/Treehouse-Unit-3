@@ -26,6 +26,15 @@ const creditCard = document.querySelector('.credit-card');
 const paypal = document.querySelector('.paypal');
 const bitcoin = document.querySelector('.bitcoin');
 
+const form = document.querySelector("form");
+const name = document.querySelector("#name");
+const email = document.getElementById("mail");
+const activitiesOptions = document.querySelectorAll('.activities input')
+const activitiesLegend = document.querySelector('.activities legend')
+const cardNumber = document.getElementById('cc-num')
+const zipCode = document.getElementById('zip')
+const cvv = document.getElementById('cvv')
+
 //Actions to take on page load
 window.onload = function() { 
     //set focus on 'Name' field on page load
@@ -98,6 +107,7 @@ activities.addEventListener('change', (e) => {
     
     //adjust the total fee based on what was selected or deselected
     let eventCost = parseInt(e.target.getAttribute('data-cost'));
+    activityFeeDiv.style.color = "Black" //this is here in case validation failure has changed the color to red
     
     if(e.target.checked){
         totalFee += eventCost;
@@ -124,7 +134,7 @@ activities.addEventListener('change', (e) => {
                     checkboxes[i].disabled = false 
                 }
             }
-        }     
+        }     3
 });
 
 //Payment Section
@@ -146,3 +156,127 @@ paymentOptions.addEventListener('change', (e) => {
 });
 
 //Form Validation
+
+//Name
+const nameValidation = () => {
+    const testName = /^[a-zA-Z ]{2,30}$/;
+    if (testName.test(name.value)) {
+      name.style.borderColor = "lime";
+      return true;
+    } else {
+      name.style.borderColor = "red";
+      return false;
+  }
+}
+
+//email 
+const emailValidation = () => {
+  const testEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    //regex courtesey of https://emailregex.com
+  if (testEmail.test(email.value)) {
+    email.style.borderColor = "lime";
+    return true;
+  }else {
+    email.style.borderColor = "red";
+    return false;
+  }
+}
+
+//activities
+const activitiesValidation = () => {
+    for(let i =0; i < checkboxes.length; i++) {
+            if(checkboxes[i].checked) {
+                activityFeeDiv.style.color = "Black"
+                activityFeeDiv.textContent = `Total Cost: $${totalFee}`
+                return true;
+            } else {
+                activityFeeDiv.style.color = "Red"
+                activityFeeDiv.textContent = "Error: Select at least one activity!" 
+            }
+    } return false;
+}
+
+//credit card
+const cardValidation = () => {
+    const testCard = new RegExp(/[1-9][0-9]{12,15}/); 
+        if (testCard.test(cardNumber.value)) {
+            cardNumber.style.borderColor = "lime";
+            return true;
+        } else {
+            cardNumber.style.borderColor = "red";
+            return false;
+        }
+}
+
+//zip code
+const zipValidation = () => {
+    const testZip = new RegExp(/^\d{5}(?:[-\s]\d{4})?$/); 
+        if (testZip.test(zipCode.value)) {
+            zipCode.style.borderColor = "lime";
+            return true;
+        } else {
+            zipCode.style.borderColor = "red";
+            return false;
+        }
+}
+
+//cvv
+const cvvValidation = () => {
+    const testCvv = new RegExp(/^[0-9]{3}$/); 
+        if (testCvv.test(cvv.value)) {
+            cvv.style.borderColor = "lime";
+            return true;
+        } else {
+            cvv.style.borderColor = "red";
+            return false;
+        }
+}
+
+//real-time name validation
+nameField.addEventListener('change', () => {
+    nameValidation();
+});
+
+//real-time email validation
+email.addEventListener('change', () => {
+    emailValidation();
+});
+
+//real-time card validation
+cardNumber.addEventListener('change', () => {
+    cardValidation();
+});
+
+//real-time zip validation
+zipCode.addEventListener('change', () => {
+    zipValidation();
+});
+
+cvv.addEventListener('change', () => {
+    cvvValidation();
+});
+
+//submit button
+form.addEventListener('submit', (e) =>{
+    if (!nameValidation()) {
+        e.preventDefault();
+      }
+    if (!emailValidation()) {
+        e.preventDefault();
+      }
+    if (!activitiesValidation()) {
+        e.preventDefault();
+      }
+    if (creditOption.selected === true){
+        if (!cardValidation()){
+            e.preventDefault();
+        } 
+        if (!zipValidation()){
+            e.preventDefault();
+        }
+        if (!cvvValidation()){
+            e.preventDefault();
+        } 
+    }
+    
+});
