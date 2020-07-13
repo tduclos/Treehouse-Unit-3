@@ -8,10 +8,16 @@ FSJS project 3 - Interactive Form
 const nameField = document.getElementById("name");
 const otherField = document.getElementById("other-title");
 const jobRole = document.getElementById('title');
+
 const themeSelectOption = document.querySelectorAll('#design option')[0];
 const colorLabel = document.querySelector('label[for="color"]');
 const colorOptions = document.getElementById('color');
 const designSelect = document.querySelector('#design');
+
+const activityFeeDiv = document.createElement('div');
+const activities = document.querySelector('.activities');
+const checkboxes = document.querySelectorAll('.activities input');
+let   totalFee = 0;
 
 //Actions to take on page load
 window.onload = function() { 
@@ -69,6 +75,44 @@ colorLabel.style.display='';
 });
 
 //Activity Section
+activities.append(activityFeeDiv); //Div to display the cost of the selected events
+activityFeeDiv.textContent = `Your total will display here once you select your chosen event(s).`;
+
+//listener to update the activities checklist 
+activities.addEventListener('change', (e) => {
+    
+    
+    //adjust the total fee based on what was selected or deselected
+    let eventCost = parseInt(e.target.getAttribute('data-cost'));
+    
+    if(e.target.checked){
+        totalFee += eventCost;
+    }else{
+        totalFee -= eventCost;
+    };
+    
+    //update the div with the new fee
+    if(totalFee != 0){
+        activityFeeDiv.textContent = `Total Cost: $${totalFee}`;
+    }else{
+        activityFeeDiv.textContent = `No events selected.`;
+    };
+    
+    //find and enable/disable checkboxes of events that have conflicting times
+        let eventTime = e.target.getAttribute('data-day-and-time');
+        
+        for (let i = 0; i < checkboxes.length; i ++) {
+            const timeToCheck = checkboxes[i].getAttribute('data-day-and-time')
+            if (eventTime === timeToCheck && e.target !== checkboxes[i]) {
+                if (e.target.checked) {
+                    checkboxes[i].disabled = true
+                } else {
+                    checkboxes[i].disabled = false 
+                }
+            }
+        } 
+    
+});
 
 //Payment Section
 
